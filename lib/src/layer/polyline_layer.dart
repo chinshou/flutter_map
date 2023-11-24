@@ -7,6 +7,7 @@ import 'package:flutter_map/src/layer/general/mobile_layer_transformer.dart';
 import 'package:flutter_map/src/map/camera/camera.dart';
 import 'package:flutter_map/src/misc/point_extensions.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:arrow_path/arrow_path.dart';
 
 class Polyline {
   final List<LatLng> points;
@@ -20,6 +21,7 @@ class Polyline {
   final StrokeCap strokeCap;
   final StrokeJoin strokeJoin;
   final bool useStrokeWidthInMeter;
+  final bool showArrow;
 
   LatLngBounds? _boundingBox;
 
@@ -38,6 +40,7 @@ class Polyline {
     this.strokeCap = StrokeCap.round,
     this.strokeJoin = StrokeJoin.round,
     this.useStrokeWidthInMeter = false,
+    this.showArrow = false
   });
 
   /// Used to batch draw calls to the canvas.
@@ -237,6 +240,8 @@ class PolylinePainter extends CustomPainter {
         }
         _paintLine(path, offsets);
       }
+      if (polyline.showArrow)
+        path=ArrowPath.addTip(path);
     }
 
     drawPaths();
